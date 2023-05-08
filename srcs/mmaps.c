@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:12:03 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/08 16:12:04 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/08 16:28:14 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,7 @@ void			new_tny_mmap(void)
 	new_mpheader->next_mmap = 0;
 	if (!info->tny_mmaps)
 		info->tny_mmaps = (struct s_tnysml_mmap_header *)new_mmap;
-	else
-	{
-		info->tny_mmaps_tail->next_mmap =
-			(struct s_tnysml_mmap_header *)new_mmap;
-	}
 	fill_new_tny_mmap(new_mmap);
-	info->tny_mmaps_tail = (struct s_tnysml_mmap_header *)new_mmap;
 	++info->n_tny_mmaps;
 }
 
@@ -106,13 +100,7 @@ void			new_sml_mmap(void)
 	new_mpheader->next_mmap = 0;
 	if (!info->sml_mmaps)
 		info->sml_mmaps = (struct s_tnysml_mmap_header *)new_mmap;
-	else
-	{
-		info->sml_mmaps_tail->next_mmap =
-			(struct s_tnysml_mmap_header *)new_mmap;
-	}
 	fill_new_sml_mmap(new_mmap);
-	info->sml_mmaps_tail = (struct s_tnysml_mmap_header *)new_mmap;
 	++info->n_sml_mmaps;
 }
 

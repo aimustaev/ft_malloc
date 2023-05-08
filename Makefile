@@ -6,7 +6,7 @@
 #    By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/07 16:07:02 by aimustaev         #+#    #+#              #
-#    Updated: 2023/05/08 16:11:01 by aimustaev        ###   ########.fr        #
+#    Updated: 2023/05/08 17:56:43 by aimustaev        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,6 +122,7 @@ test: libft/libft.a ${NAME}
 bench: libft/libft.a ${NAME}
 	@${CC} ${INCL} ${LIB_TEST} test.c -o test
 	@./run.sh /usr/bin/time -l ./test
+# &| grep 'page reclaims's
 
 re: fclean all
 

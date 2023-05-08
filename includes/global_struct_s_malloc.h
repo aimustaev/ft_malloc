@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:09:49 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/08 16:09:50 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/08 16:28:34 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@
 struct								s_malloc
 {
 	struct s_tnysml_mmap_header		*tny_mmaps;
-	struct s_tnysml_mmap_header		*tny_mmaps_tail;
 	struct s_tnysml_mmap_header		*sml_mmaps;
-	struct s_tnysml_mmap_header		*sml_mmaps_tail;
 	struct s_tnysml_alloc_header	*free_tny_allocs;
 	struct s_tnysml_alloc_header	*free_tny_allocs_tail;
 	struct s_tnysml_alloc_header	*free_sml_allocs;
