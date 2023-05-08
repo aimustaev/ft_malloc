@@ -6,7 +6,7 @@
 #    By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/07 16:07:02 by aimustaev         #+#    #+#              #
-#    Updated: 2023/05/08 17:56:43 by aimustaev        ###   ########.fr        #
+#    Updated: 2023/05/08 18:24:04 by aimustaev        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,12 +41,7 @@ LDFLAGS = -shared
 
 DEP = libft/incl/libft.h \
 	includes/malloc.h \
-	includes/global_struct_s_malloc.h \
-	includes/find_header.h \
-	includes/mmaps.h \
-	includes/struct_lrg_alloc_header.h \
-	includes/struct_tnysml_alloc_header.h \
-	includes/struct_tnysml_mmap_header.h
+	includes/malloc_struct.h
 
 CC = gcc
 

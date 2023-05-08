@@ -6,15 +6,15 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:09:35 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/08 16:11:19 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/08 18:23:54 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 #define MALLOC_H
 
-#include "global_struct_s_malloc.h"
 # include "libft.h"
+# include "malloc_struct.h"
 /*
 **	:)		CONFIGURE:
 **
@@ -35,12 +35,18 @@
 #define SMALL 2
 #define LARGE 3
 
-struct s_malloc *info;
+struct s_malloc     *g_info;
 
-void *malloc(size_t size);
-void *calloc(size_t num, size_t size);
-void *realloc(void *ptr, size_t size);
-void free(void *ptr);
-void			show_alloc_mem(void);
+void                *malloc(size_t size);
+void                *calloc(size_t num, size_t size);
+void                *realloc(void *ptr, size_t size);
+void                free(void *ptr);
+void			    show_alloc_mem(void);
 
+
+// Helpers
+void		        new_tny_mmap(void);
+void		        new_sml_mmap(void);
+void		        new_lrg_mmap(size_t size);
+unsigned int	    find_header(void *ptr, void **header);
 #endif

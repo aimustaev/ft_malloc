@@ -6,36 +6,33 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:47 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/08 16:11:47 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/08 18:20:36 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
-#include "struct_tnysml_mmap_header.h"
-#include "struct_tnysml_alloc_header.h"
-#include "struct_lrg_alloc_header.h"
 #include <unistd.h>
 #include <stdint.h>
 
 static void		*check_tny(void *ptr)
 {
-	struct s_tnysml_mmap_header		*cur;
-	struct s_tnysml_alloc_header	*header;
+	t_tnysml_mmap_header		*cur;
+	t_tnysml_alloc_header	*header;
 
-	cur = info->tny_mmaps;
+	cur = g_info->tny_mmaps;
 	while (cur)
 	{
-		if ((uintptr_t)ptr >= (uintptr_t)cur + info->tny_mmap_offset &&
-				(uintptr_t)ptr < (uintptr_t)cur + info->tny_mmap_size &&
-				((uintptr_t)ptr - ((uintptr_t)cur + info->tny_mmap_offset)) %
-				(info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) >=
-				info->tnysml_alheadr_siz)
+		if ((uintptr_t)ptr >= (uintptr_t)cur + g_info->tny_mmap_offset &&
+				(uintptr_t)ptr < (uintptr_t)cur + g_info->tny_mmap_size &&
+				((uintptr_t)ptr - ((uintptr_t)cur + g_info->tny_mmap_offset)) %
+				(g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) >=
+				g_info->tnysml_alheadr_siz)
 		{
-			header = (struct s_tnysml_alloc_header *)
-					((uintptr_t)cur + info->tny_mmap_offset +
-					((info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) *
-					(((uintptr_t)ptr - ((uintptr_t)cur + info->tny_mmap_offset))
-					/ (info->tnysml_alheadr_siz + TNY_ALLOC_SIZE))));
+			header = (t_tnysml_alloc_header *)
+					((uintptr_t)cur + g_info->tny_mmap_offset +
+					((g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) *
+					(((uintptr_t)ptr - ((uintptr_t)cur + g_info->tny_mmap_offset))
+					/ (g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE))));
 			return ((!header->free) ? header : 0);
 		}
 		cur = cur->next_mmap;
@@ -45,23 +42,23 @@ static void		*check_tny(void *ptr)
 
 static void		*check_sml(void *ptr)
 {
-	struct s_tnysml_mmap_header		*cur;
-	struct s_tnysml_alloc_header	*header;
+	t_tnysml_mmap_header		*cur;
+	t_tnysml_alloc_header	*header;
 
-	cur = info->sml_mmaps;
+	cur = g_info->sml_mmaps;
 	while (cur)
 	{
-		if ((uintptr_t)ptr >= (uintptr_t)cur + info->sml_mmap_offset &&
-				(uintptr_t)ptr < (uintptr_t)cur + info->sml_mmap_size &&
-				((uintptr_t)ptr - ((uintptr_t)cur + info->sml_mmap_offset)) %
-				(info->tnysml_alheadr_siz + SML_ALLOC_SIZE) >=
-				info->tnysml_alheadr_siz)
+		if ((uintptr_t)ptr >= (uintptr_t)cur + g_info->sml_mmap_offset &&
+				(uintptr_t)ptr < (uintptr_t)cur + g_info->sml_mmap_size &&
+				((uintptr_t)ptr - ((uintptr_t)cur + g_info->sml_mmap_offset)) %
+				(g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE) >=
+				g_info->tnysml_alheadr_siz)
 		{
-			header = (struct s_tnysml_alloc_header *)
-					((uintptr_t)cur + info->sml_mmap_offset +
-					((info->tnysml_alheadr_siz + SML_ALLOC_SIZE) *
-					(((uintptr_t)ptr - ((uintptr_t)cur + info->sml_mmap_offset))
-					/ (info->tnysml_alheadr_siz + SML_ALLOC_SIZE))));
+			header = (t_tnysml_alloc_header *)
+					((uintptr_t)cur + g_info->sml_mmap_offset +
+					((g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE) *
+					(((uintptr_t)ptr - ((uintptr_t)cur + g_info->sml_mmap_offset))
+					/ (g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE))));
 			return ((!header->free) ? header : 0);
 		}
 		cur = cur->next_mmap;
@@ -71,12 +68,12 @@ static void		*check_sml(void *ptr)
 
 static void		*check_lrg(void *ptr)
 {
-	struct s_lrg_alloc_header	*cur;
+	t_lrg_alloc_header	*cur;
 
-	cur = info->lrg_allocs;
+	cur = g_info->lrg_allocs;
 	while (cur)
 	{
-		if ((uintptr_t)ptr >= (uintptr_t)cur + info->lrg_alheadr_siz &&
+		if ((uintptr_t)ptr >= (uintptr_t)cur + g_info->lrg_alheadr_siz &&
 				(uintptr_t)ptr <= (uintptr_t)cur + cur->size)
 		{
 			return (cur);
