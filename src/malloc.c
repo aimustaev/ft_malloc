@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:59 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 12:02:47 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:39:44 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void	*malloc(size_t size)
 {
 	void	*ptr;
 
+	lock();
 	if (!g_info)
-		setup_malloc();
+		init_malloc();
 	if (size <= TNY_ALLOC_SIZE)
 		ptr = malloc_tny(size);
 	else if (size <= SML_ALLOC_SIZE)
@@ -57,5 +58,6 @@ void	*malloc(size_t size)
 		new_lrg_mmap(size);
 		ptr = (void *)((uintptr_t)g_info->lrg_allocs + g_info->lrg_block_size);
 	}
+	unlock();
 	return (ptr);
 }

@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   global_struct.c                                    :+:      :+:    :+:   */
+/*   init_malloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:55 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 12:11:53 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:39:42 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "malloc.h"
 #include <sys/mman.h>
 
-static void	setup_alignment(void)
+pthread_mutex_t	g_malloc_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+static void	init_alignment(void)
 {
 	g_info->lrg_block_size = sizeof(t_lrg_block);
 	g_info->tnysml_block_size = sizeof(t_tnysml_block);
@@ -35,14 +37,14 @@ static void	setup_alignment(void)
 		(g_info->tnysml_block_size + SML_ALLOC_SIZE);
 }
 
-void	setup_malloc(void)
+void	init_malloc(void)
 {
 	void				*page;
 
 	page = mmap(0, getpagesize(), PROT_READ | PROT_WRITE,
 			MAP_PRIVATE | MAP_ANON, -1, 0);
 	g_info = (struct s_malloc *)page;
-	setup_alignment();
+	init_alignment();
 	g_info->lrg_allocs = 0;
 	g_info->n_tny_mmaps = 0;
 	g_info->n_sml_mmaps = 0;

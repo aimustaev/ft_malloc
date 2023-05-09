@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:51 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 12:11:53 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:40:15 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,9 @@ void	free(void *ptr)
 	void			*header;
 	unsigned int	zone;
 
+	lock();
 	if (!g_info)
-		setup_malloc();
+		init_malloc();
 	zone = find_header(ptr, &header);
 	if (zone == TINY)
 		free_tny(header);
@@ -93,4 +94,5 @@ void	free(void *ptr)
 		free_sml(header);
 	else if (zone == LARGE)
 		free_lrg(header);
+	unlock();
 }

@@ -6,13 +6,14 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:09:35 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 11:57:11 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:34:43 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MALLOC_H
 # define MALLOC_H
 
+# include <pthread.h>
 # include "libft.h"
 # include "malloc_struct.h"
 /*
@@ -35,7 +36,12 @@
 # define SMALL 2
 # define LARGE 3
 
-struct s_malloc	*g_info;
+struct s_malloc			*g_info;
+
+/*
+** multithreading lib
+*/
+extern pthread_mutex_t	g_malloc_mutex;
 
 void			*malloc(size_t size);
 void			*calloc(size_t num, size_t size);
@@ -48,5 +54,6 @@ void			new_tny_mmap(void);
 void			new_sml_mmap(void);
 void			new_lrg_mmap(size_t size);
 unsigned int	find_header(void *ptr, void **header);
-
+void            lock();
+void            unlock();
 #endif

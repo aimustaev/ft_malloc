@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:09:49 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 12:11:53 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:39:48 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,6 @@ struct						s_malloc
 	size_t				n_sml_block;
 };
 
-void					setup_malloc(void);
+void					init_malloc(void);
 
 #endif

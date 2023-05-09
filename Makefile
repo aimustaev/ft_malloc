@@ -6,7 +6,7 @@
 #    By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/07 16:07:02 by aimustaev         #+#    #+#              #
-#    Updated: 2023/05/08 18:24:04 by aimustaev        ###   ########.fr        #
+#    Updated: 2023/05/09 12:40:56 by aimustaev        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,15 +25,16 @@ HOSTLIB = libft_malloc_$(HOSTTYPE).so
 SRC = calloc.c \
 	find_header.c \
 	free.c \
-	global_struct.c \
+	init_malloc.c \
 	malloc.c \
 	mmaps.c \
 	realloc.c \
-	show_alloc_mem.c
+	show_alloc_mem.c \
+	mutex.c
 
-SRCDIR = srcs/
+SRCDIR = src/
 
-OBJDIR = objs
+OBJDIR = obj
 
 CFLAGS = -Wall -Wextra -g -Werror
 
