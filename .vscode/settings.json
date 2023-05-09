@@ -45,7 +45,8 @@
         "vector": "c",
         "global_struct_s_malloc.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "__threading_support": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

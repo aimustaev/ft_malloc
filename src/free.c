@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:51 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 12:40:15 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:56:49 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,10 @@ void	free(void *ptr)
 		free_sml(header);
 	else if (zone == LARGE)
 		free_lrg(header);
+	if (g_is_debug)
+	{
+		ft_printf("\nFree:\n");
+		show_alloc_mem();
+	}
 	unlock();
 }

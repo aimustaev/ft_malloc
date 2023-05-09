@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:59 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 12:39:44 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:57:09 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void	*malloc(size_t size)
 	{
 		new_lrg_mmap(size);
 		ptr = (void *)((uintptr_t)g_info->lrg_allocs + g_info->lrg_block_size);
+	}
+	if (g_is_debug)
+	{
+		ft_printf("\nMalloc:\n");
+		show_alloc_mem();
 	}
 	unlock();
 	return (ptr);

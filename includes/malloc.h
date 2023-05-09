@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:09:35 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 12:34:43 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:52:48 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ struct s_malloc			*g_info;
 ** multithreading lib
 */
 extern pthread_mutex_t	g_malloc_mutex;
+
+extern unsigned short	g_is_debug;
 
 void			*malloc(size_t size);
 void			*calloc(size_t num, size_t size);
