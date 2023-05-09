@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:51 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/08 18:24:49 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 11:40:54 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 
 static void		free_tny(void *header)
 {
-	t_tnysml_mmap_header	*page_header;
+	t_map_header	*page_header;
 
-	page_header = (t_tnysml_mmap_header *)
-			((uintptr_t)header - (((t_tnysml_alloc_header *)header)->id *
+	page_header = (t_map_header *)
+			((uintptr_t)header - (((t_tnysml_block *)header)->id *
 			(g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE)) -
 			(g_info->tny_mmap_offset - g_info->tnysml_mpheadr_siz));
 	if (page_header->nallocs == 1 && g_info->n_tny_mmaps > 1)
 		munmap(page_header, g_info->tny_mmap_size);
 	else
 	{
-		((t_tnysml_alloc_header *)(header))->free = 1;
-		((t_tnysml_alloc_header *)(header))->used = 0;
-		((t_tnysml_alloc_header *)(header))->next_free = 0;
+		((t_tnysml_block *)(header))->free = 1;
+		((t_tnysml_block *)(header))->used = 0;
+		((t_tnysml_block *)(header))->next_free = 0;
 		--page_header->nallocs;
 		g_info->free_tny_allocs_tail->next_free = header;
 		g_info->free_tny_allocs_tail = g_info->free_tny_allocs_tail->next_free;
@@ -38,19 +38,19 @@ static void		free_tny(void *header)
 
 static void		free_sml(void *header)
 {
-	t_tnysml_mmap_header	*page_header;
+	t_map_header	*page_header;
 
-	page_header = (t_tnysml_mmap_header *)
-			((uintptr_t)header - (((t_tnysml_alloc_header *)header)->id *
+	page_header = (t_map_header *)
+			((uintptr_t)header - (((t_tnysml_block *)header)->id *
 			(g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE)) -
 			(g_info->sml_mmap_offset - g_info->tnysml_mpheadr_siz));
 	if (page_header->nallocs == 1 && g_info->n_sml_mmaps > 1)
 		munmap(page_header, g_info->sml_mmap_size);
 	else
 	{
-		((t_tnysml_alloc_header *)(header))->free = 1;
-		((t_tnysml_alloc_header *)(header))->used = 0;
-		((t_tnysml_alloc_header *)(header))->next_free = 0;
+		((t_tnysml_block *)(header))->free = 1;
+		((t_tnysml_block *)(header))->used = 0;
+		((t_tnysml_block *)(header))->next_free = 0;
 		--page_header->nallocs;
 		g_info->free_sml_allocs_tail->next_free = header;
 		g_info->free_sml_allocs_tail = g_info->free_sml_allocs_tail->next_free;
@@ -59,9 +59,9 @@ static void		free_sml(void *header)
 
 static void		free_lrg(void *header)
 {
-	t_lrg_alloc_header	*prev;
+	t_lrg_block	*prev;
 
-	prev = ((t_lrg_alloc_header *)(header))->prev_alloc;
+	prev = ((t_lrg_block *)(header))->prev_alloc;
 	if (!prev)
 	{
 		if (g_info->lrg_allocs->next_alloc)
@@ -74,9 +74,9 @@ static void		free_lrg(void *header)
 	}
 	else
 	{
-		prev->next_alloc = ((t_lrg_alloc_header *)(header))->next_alloc;
+		prev->next_alloc = ((t_lrg_block *)(header))->next_alloc;
 	}
-	munmap(header, ((t_lrg_alloc_header *)(header))->size);
+	munmap(header, ((t_lrg_block *)(header))->size);
 }
 
 void			free(void *ptr)

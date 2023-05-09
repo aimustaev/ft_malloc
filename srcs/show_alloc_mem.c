@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:12:12 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/08 18:20:36 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 11:42:00 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	show_tny(void)
 {
-	t_tnysml_mmap_header		*cur;
+	t_map_header		*cur;
 	unsigned int					addr;
 	unsigned int					used;
 	size_t							i;
@@ -26,14 +26,14 @@ void	show_tny(void)
 	while (cur)
 	{
 		i = 0;
-		while (i < g_info->n_tny_allocs_per_mmap)
+		while (i < g_info->n_tny_block)
 		{
 			addr = (uintptr_t)cur + g_info->tny_mmap_offset +
 					((g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) * i);
-			used = ((t_tnysml_alloc_header *)
+			used = ((t_tnysml_block *)
 					((uintptr_t)cur + g_info->tny_mmap_offset +
 					((g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) * i)))->used;
-			if (!(((t_tnysml_alloc_header *)
+			if (!(((t_tnysml_block *)
 					((uintptr_t)cur + g_info->tny_mmap_offset +
 					((g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) * i)))->free))
 				ft_printf("%#.8x - %#.8x : %d bytes\n",
@@ -46,7 +46,7 @@ void	show_tny(void)
 
 void	show_sml(void)
 {
-	t_tnysml_mmap_header		*cur;
+	t_map_header		*cur;
 	unsigned int					addr;
 	unsigned int					used;
 	size_t							i;
@@ -55,14 +55,14 @@ void	show_sml(void)
 	while (cur)
 	{
 		i = 0;
-		while (i < g_info->n_sml_allocs_per_mmap)
+		while (i < g_info->n_sml_block)
 		{
 			addr = (uintptr_t)cur + g_info->sml_mmap_offset +
 					((g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE) * i);
-			used = ((t_tnysml_alloc_header *)
+			used = ((t_tnysml_block *)
 					((uintptr_t)cur + g_info->sml_mmap_offset +
 					((g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE) * i)))->used;
-			if (!(((t_tnysml_alloc_header *)
+			if (!(((t_tnysml_block *)
 					((uintptr_t)cur + g_info->sml_mmap_offset +
 					((g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE) * i)))->free))
 				ft_printf("%#.8x - %#.8x : %d bytes\n",
@@ -75,7 +75,7 @@ void	show_sml(void)
 
 void	show_lrg(void)
 {
-	t_lrg_alloc_header		*cur;
+	t_lrg_block		*cur;
 	unsigned int					addr;
 	unsigned int					used;
 

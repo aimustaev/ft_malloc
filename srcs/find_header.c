@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:47 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/08 18:20:36 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 11:40:54 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static void		*check_tny(void *ptr)
 {
-	t_tnysml_mmap_header		*cur;
-	t_tnysml_alloc_header	*header;
+	t_map_header		*cur;
+	t_tnysml_block	*header;
 
 	cur = g_info->tny_mmaps;
 	while (cur)
@@ -28,7 +28,7 @@ static void		*check_tny(void *ptr)
 				(g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) >=
 				g_info->tnysml_alheadr_siz)
 		{
-			header = (t_tnysml_alloc_header *)
+			header = (t_tnysml_block *)
 					((uintptr_t)cur + g_info->tny_mmap_offset +
 					((g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE) *
 					(((uintptr_t)ptr - ((uintptr_t)cur + g_info->tny_mmap_offset))
@@ -42,8 +42,8 @@ static void		*check_tny(void *ptr)
 
 static void		*check_sml(void *ptr)
 {
-	t_tnysml_mmap_header		*cur;
-	t_tnysml_alloc_header	*header;
+	t_map_header		*cur;
+	t_tnysml_block	*header;
 
 	cur = g_info->sml_mmaps;
 	while (cur)
@@ -54,7 +54,7 @@ static void		*check_sml(void *ptr)
 				(g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE) >=
 				g_info->tnysml_alheadr_siz)
 		{
-			header = (t_tnysml_alloc_header *)
+			header = (t_tnysml_block *)
 					((uintptr_t)cur + g_info->sml_mmap_offset +
 					((g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE) *
 					(((uintptr_t)ptr - ((uintptr_t)cur + g_info->sml_mmap_offset))
@@ -68,7 +68,7 @@ static void		*check_sml(void *ptr)
 
 static void		*check_lrg(void *ptr)
 {
-	t_lrg_alloc_header	*cur;
+	t_lrg_block	*cur;
 
 	cur = g_info->lrg_allocs;
 	while (cur)
