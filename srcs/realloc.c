@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:12:08 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 11:40:19 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:02:47 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void		*update_zone(unsigned int old_zone, void *header,
 	{
 		old_size = ((t_tnysml_block *)(header))->used;
 		new_ptr = ft_memcpy(new_ptr, (void *)((uintptr_t)header +
-				g_info->tnysml_alheadr_siz),
+				g_info->tnysml_block_size),
 				((old_size < new_size) ? old_size : new_size));
 	}
 	else
 	{
 		old_size = ((t_lrg_block *)(header))->used;
 		new_ptr = ft_memcpy(new_ptr, (void *)((uintptr_t)header +
-				g_info->lrg_alheadr_siz),
+				g_info->lrg_block_size),
 				((old_size < new_size) ? old_size : new_size));
 	}
 	return (new_ptr);
@@ -48,13 +48,13 @@ static void		*get_new_ptr(unsigned int zone, void *header, void *ptr,
 			new_size <= SML_ALLOC_SIZE))
 	{
 		((t_tnysml_block *)(header))->used = new_size;
-		new_ptr = (void *)((uintptr_t)header + g_info->tnysml_alheadr_siz);
+		new_ptr = (void *)((uintptr_t)header + g_info->tnysml_block_size);
 	}
 	else if (zone == LARGE && new_size <=
 			((t_lrg_block *)(header))->size)
 	{
 		((t_lrg_block *)(header))->used = new_size;
-		new_ptr = (void *)((uintptr_t)header + g_info->lrg_alheadr_siz);
+		new_ptr = (void *)((uintptr_t)header + g_info->lrg_block_size);
 	}
 	else
 	{

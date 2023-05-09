@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:09:49 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 11:52:59 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:11:53 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ typedef struct s_map_header
 
 /*
 **	Глобальная структура со всеми параметрами и состоянием памяти
-	- tnysml_alheadr_siz; // Размер заголоввка блока
-	- tnysml_mpheadr_siz; // Размер заголоввка блока
+	- tnysml_block_size; // Размер заголоввка блока
+	- tnysml_map_size; // Размер заголоввка блока
 	- n_tny_mmaps; // Количество заюзаных блоков
 	- n_sml_mmaps; // Количество заюзаных блоков
 	- tny_mmap_size; // Общий кусок выделяемой памяти TNY_OVERHEAD * 4кб
 	- sml_mmap_size; // Общий кусок выделяемой памяти SML_OVERHEAD * 4кб
-	- tny_mmap_padding; // Кусок памяти который не задействован + Заголовок
-	- sml_mmap_padding; // Кусок памяти который не задействован + Заголовок
-	- tny_mmap_offset; // Кусок памяти который не задествован
-	- sml_mmap_offset; // Кусок памяти который не задествован
+	- tny_mmap_pad; // Кусок памяти который не задействован + Заголовок
+	- sml_mmap_pad; // Кусок памяти который не задействован + Заголовок
+	- tny_mmap_off; // Кусок памяти который не задествован
+	- sml_mmap_off; // Кусок памяти который не задествован
 	- tny_mmap_space; // Кусок памяти который включает количество
 	целых блоков * рзмер блока (данные + мета информация)
 	- sml_mmap_space; // Кусок памяти который включает количество
@@ -75,17 +75,17 @@ struct						s_malloc
 	t_tnysml_block		*free_sml_allocs_tail;
 	t_lrg_block			*lrg_allocs;
 	size_t				pagesize;
-	size_t				lrg_alheadr_siz;
-	size_t				tnysml_alheadr_siz;
-	size_t				tnysml_mpheadr_siz;
+	size_t				lrg_block_size;
+	size_t				tnysml_block_size;
+	size_t				tnysml_map_size;
 	size_t				n_tny_mmaps;
 	size_t				n_sml_mmaps;
 	size_t				tny_mmap_size;
 	size_t				sml_mmap_size;
-	size_t				tny_mmap_padding;
-	size_t				sml_mmap_padding;
-	size_t				tny_mmap_offset;
-	size_t				sml_mmap_offset;
+	size_t				tny_mmap_pad;
+	size_t				sml_mmap_pad;
+	size_t				tny_mmap_off;
+	size_t				sml_mmap_off;
 	size_t				tny_mmap_space;
 	size_t				sml_mmap_space;
 	size_t				n_tny_block;

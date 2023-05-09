@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:12:03 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 11:42:00 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:19:09 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 #include <unistd.h>
 #include <stdint.h>
 
-static void		fill_new_tny_mmap(void *new_mmap)
+static void	fill_new_tny_mmap(void *new_mmap)
 {
-	t_tnysml_block	*header;
+	t_tnysml_block					*header;
 	unsigned int					i;
 
 	header = (t_tnysml_block *)
-			((uintptr_t)new_mmap + g_info->tny_mmap_offset);
+		((uintptr_t)new_mmap + g_info->tny_mmap_off);
 	if (!g_info->free_tny_allocs)
 		g_info->free_tny_allocs = header;
 	else
@@ -30,8 +30,8 @@ static void		fill_new_tny_mmap(void *new_mmap)
 	i = 1;
 	while (i < g_info->n_tny_block)
 	{
-		header->next_free = (t_tnysml_block *)
-				((uintptr_t)header + g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE);
+		header->next_free = (t_tnysml_block *)((uintptr_t)header + \
+			g_info->tnysml_block_size + TNY_ALLOC_SIZE);
 		header = header->next_free;
 		header->free = 1;
 		header->id = i;
@@ -40,13 +40,13 @@ static void		fill_new_tny_mmap(void *new_mmap)
 	g_info->free_tny_allocs_tail = header;
 }
 
-static void		fill_new_sml_mmap(void *new_mmap)
+static void	fill_new_sml_mmap(void *new_mmap)
 {
-	t_tnysml_block	*header;
+	t_tnysml_block					*header;
 	unsigned int					i;
 
 	header = (t_tnysml_block *)
-			((uintptr_t)new_mmap + g_info->sml_mmap_offset);
+		((uintptr_t)new_mmap + g_info->sml_mmap_off);
 	if (!g_info->free_sml_allocs)
 		g_info->free_sml_allocs = header;
 	else
@@ -55,8 +55,8 @@ static void		fill_new_sml_mmap(void *new_mmap)
 	i = 1;
 	while (i < g_info->n_sml_block)
 	{
-		header->next_free = (t_tnysml_block *)
-				((uintptr_t)header + g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE);
+		header->next_free = (t_tnysml_block *)((uintptr_t)header + \
+			g_info->tnysml_block_size + SML_ALLOC_SIZE);
 		header = header->next_free;
 		header->free = 1;
 		header->id = i;
@@ -65,10 +65,10 @@ static void		fill_new_sml_mmap(void *new_mmap)
 	g_info->free_sml_allocs_tail = header;
 }
 
-void			new_tny_mmap(void)
+void	new_tny_mmap(void)
 {
 	void							*new_mmap;
-	t_map_header		*new_mpheader;
+	t_map_header					*new_mpheader;
 
 	new_mmap = mmap(0, g_info->tny_mmap_size, PROT_READ | PROT_WRITE,
 			MAP_PRIVATE | MAP_ANON, -1, 0);
@@ -83,10 +83,10 @@ void			new_tny_mmap(void)
 	++g_info->n_tny_mmaps;
 }
 
-void			new_sml_mmap(void)
+void	new_sml_mmap(void)
 {
 	void							*new_mmap;
-	t_map_header		*new_mpheader;
+	t_map_header					*new_mpheader;
 
 	new_mmap = mmap(0, g_info->sml_mmap_size, PROT_READ | PROT_WRITE,
 			MAP_PRIVATE | MAP_ANON, -1, 0);
@@ -101,9 +101,9 @@ void			new_sml_mmap(void)
 	++g_info->n_sml_mmaps;
 }
 
-void			new_lrg_mmap(size_t used_size)
+void	new_lrg_mmap(size_t used_size)
 {
-	t_lrg_block	*new_header;
+	t_lrg_block					*new_header;
 	void						*new_alloc;
 	size_t						size;
 

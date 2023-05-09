@@ -6,7 +6,7 @@
 /*   By: aimustaev <aimustaev@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:11:51 by aimustaev         #+#    #+#             */
-/*   Updated: 2023/05/09 11:40:54 by aimustaev        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:11:53 by aimustaev        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include <unistd.h>
 #include <stdint.h>
 
-static void		free_tny(void *header)
+static void	free_tny(void *header)
 {
 	t_map_header	*page_header;
 
 	page_header = (t_map_header *)
-			((uintptr_t)header - (((t_tnysml_block *)header)->id *
-			(g_info->tnysml_alheadr_siz + TNY_ALLOC_SIZE)) -
-			(g_info->tny_mmap_offset - g_info->tnysml_mpheadr_siz));
+		((uintptr_t)header - (((t_tnysml_block *)header)->id * \
+		(g_info->tnysml_block_size + TNY_ALLOC_SIZE)) - \
+		(g_info->tny_mmap_off - g_info->tnysml_map_size));
 	if (page_header->nallocs == 1 && g_info->n_tny_mmaps > 1)
 		munmap(page_header, g_info->tny_mmap_size);
 	else
@@ -36,14 +36,14 @@ static void		free_tny(void *header)
 	}
 }
 
-static void		free_sml(void *header)
+static void	free_sml(void *header)
 {
 	t_map_header	*page_header;
 
 	page_header = (t_map_header *)
-			((uintptr_t)header - (((t_tnysml_block *)header)->id *
-			(g_info->tnysml_alheadr_siz + SML_ALLOC_SIZE)) -
-			(g_info->sml_mmap_offset - g_info->tnysml_mpheadr_siz));
+		((uintptr_t)header - (((t_tnysml_block *)header)->id * \
+		(g_info->tnysml_block_size + SML_ALLOC_SIZE)) - \
+		(g_info->sml_mmap_off - g_info->tnysml_map_size));
 	if (page_header->nallocs == 1 && g_info->n_sml_mmaps > 1)
 		munmap(page_header, g_info->sml_mmap_size);
 	else
@@ -57,7 +57,7 @@ static void		free_sml(void *header)
 	}
 }
 
-static void		free_lrg(void *header)
+static void	free_lrg(void *header)
 {
 	t_lrg_block	*prev;
 
@@ -79,7 +79,7 @@ static void		free_lrg(void *header)
 	munmap(header, ((t_lrg_block *)(header))->size);
 }
 
-void			free(void *ptr)
+void	free(void *ptr)
 {
 	void			*header;
 	unsigned int	zone;
